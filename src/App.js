@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Header from "./components/header.jsx";
 import Form from "./components/form.jsx";
 import Cards from "./components/cards.js";
+import Loading from "./components/loading.jsx";
 import { getSearch, getReferents } from "./api/index.js";
 require("dotenv").config();
 
@@ -11,44 +12,47 @@ class App extends Component {
     this.state = {
       parsedDataObject: undefined,
       dataFetched: false,
-      searchKey: "logic",//eventually put a random list here
+      searchKey: "logic", //eventually put a random list here
+      isLoading: false
     };
   }
 
-  getFormInput = key => {
-    this.setState({ searchKey: key });
+  getApi = () => {
+    return getSearch(this.state.searchKey)
+      .then(resp => resp.hits.map(x => x.result.id))
+      .then(resp => resp.map(x => getReferents(x).then(resp => resp.referents)))
+      .then(resp => Promise.all(resp))
+      .then(resp => resp.map(x => fragmentArray(x)));
   };
 
   componentDidMount() {
-    let getApi = () => {
-      return getSearch(this.state.searchKey)
-     .then(resp => resp.hits.map(x => x.result.id))
-     .then(resp => resp.map(x=> getReferents(x).then(resp=>resp.referents)))
-     .then(resp => Promise.all(resp))
-     .then(resp => resp.map(x=> fragmentArray(x)))
+    this.getApi().then(resp => {
+      this.setState({ parsedDataObject: resp});
+    });
+  }
+
+  getFormInput = key => {
+    this.setState({ searchKey: key, isLoading: true });
+  };
+
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.searchKey !== prevState.searchKey){
+      this.getApi().then(resp => {
+        this.setState({ parsedDataObject: resp, isLoading: false});
+      })
     }
-
-    getApi().then(resp=>{
-      this.setState({ parsedDataObject: resp });
-    })
   }
-
-
-
-
-  componentDidUpdate(prevState) {
-
-  }
-
 
   render() {
+    console.log("hi");
     return (
       <div className="main-grid">
         <Header>
-          {" "}
-          <Form getFormInput={this.getFormInput} />{" "}
+          <Form getFormInput={this.getFormInput} />
         </Header>
-        <Cards parsedDataObject={this.state.parsedDataObject} />
+        {this.state.isLoading ? <Loading/> : null}
+        {this.state.isLoading ? null : <Cards parsedDataObject={this.state.parsedDataObject}/>}
       </div>
     );
   }
