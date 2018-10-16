@@ -21,7 +21,7 @@ let myInit = {
   let url = `https://api.genius.com/referents?song_id=${songId}&access_token=${token}`;
    return fetch(url, myInit)
     .then (resp => resp.json())
-    .then(resp => resp.response)
+    .then (resp => resp.response)
     .catch(err => console.log(err));
 }
 
