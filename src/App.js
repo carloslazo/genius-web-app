@@ -13,7 +13,7 @@ class App extends Component {
       parsedDataObject: undefined,
       dataFetched: false,
       searchKey: "logic", //eventually put a random list here
-      isLoading: false
+      isLoading: true
     };
   }
 
@@ -27,12 +27,14 @@ class App extends Component {
 
   componentDidMount() {
     this.getApi().then(resp => {
-      this.setState({ parsedDataObject: resp});
+      this.setState({ parsedDataObject: resp, isLoading: false});
     });
   }
 
   getFormInput = key => {
-    this.setState({ searchKey: key, isLoading: true });
+    if (this.state.searchKey !== key){
+      this.setState({ searchKey: key, isLoading: true });
+    }
   };
 
 
@@ -45,7 +47,6 @@ class App extends Component {
   }
 
   render() {
-    console.log("hi");
     return (
       <div className="main-grid">
         <Header>
