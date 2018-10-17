@@ -15,13 +15,15 @@ class Form extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.getFormInput(this.state.input)
+    this.state.input !== "" ?
+    this.props.getFormInput(this.state.input): null
+    this.setState({ input: ""})
   };
 
   render() {
     return (
         <form onSubmit={this.handleSubmit}>
-          <input className = "search-form" type="text" onChange={this.handleChange} placeholder="Search artists and albums" />
+          <input className = "search-form" type="text" onChange={this.handleChange} placeholder="Search artists and albums" value={this.state.input}/>
           <input className = "search-submit" type="image" src={logo}  />
         </form>
     );
