@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import logo from "../svg/search.svg"
+
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -19,8 +21,8 @@ class Form extends Component {
   render() {
     return (
         <form onSubmit={this.handleSubmit}>
-          <input type="text" onChange={this.handleChange} />
-          <input type="submit" />
+          <input className = "search-form" type="text" onChange={this.handleChange} placeholder="Search artists and albums" />
+          <input className = "search-submit" type="image" src={logo}  />
         </form>
     );
   }
