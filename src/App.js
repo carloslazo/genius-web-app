@@ -12,7 +12,7 @@ class App extends Component {
     this.state = {
       parsedDataObject: undefined,
       dataFetched: false,
-      searchKey: "logic", //eventually put a random list here
+      searchKey: "blue", //eventually put a random list here
       isLoading: true
     };
   }
@@ -62,11 +62,13 @@ class App extends Component {
 export default App;
 
 function fragmentArray(data) {
-  let object = {
+  let object
+  data[0] !== undefined ?
+   object = {
     url: data[0].url,
     fragment: data[0].fragment,
     annotations: data[0].annotations,
     annotatable: data[0].annotatable
-  };
+  } : null
   return object;
 }
