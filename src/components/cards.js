@@ -10,8 +10,7 @@ class Cards extends Component {
 
   renderDataObject() {
     return this.props.parsedDataObject.map((x, index) => {
-      return x === undefined ? null:
-       (
+      return x === undefined ? null : (
         <div key={index} className="children">
           <div className="grid">
             <div className="title"> {x.annotatable.link_title} </div>
@@ -49,29 +48,14 @@ class Cards extends Component {
                             <ChildrenTag href={attribute}>
                               {x.children.map(x => {
                                 if (typeof x === "string") {
-
                                   if (
                                     x.includes("youtu.be") ||
                                     x.includes("youtube")
                                   ) {
-                                    const opts = {
-                                      height: "200",
-                                      width: "300"
-                                    };
-                                    let copy = x.split("");
-                                    copy =  x.includes("youtu.be") ? copy.splice(16).join("") : copy.splice(32).join("")
-                                    return (
-                                      <div>
-                                        <br />
-                                        <YouTube videoId={copy} opts={opts} />
-                                        <br />
-                                      </div>
-                                    );
+                                    return widgetYoutube(x);
                                   }
                                   if (x.includes("twitter")) {
-                                    let copy = x.split("");
-                                    copy = copy.splice(36).join("");
-                                    return <TweetEmbed id={copy} />;
+                                    return widgetTwitter(x)
                                   }
                                   return x;
                                 } else if (x.tag === "br") {
@@ -114,3 +98,27 @@ class Cards extends Component {
 }
 
 export default Cards;
+
+let widgetYoutube = x => {
+  const opts = {
+    height: "200",
+    width: "300"
+  };
+  let copy = x.split("");
+  copy = x.includes("youtu.be")
+    ? copy.splice(16).join("")
+    : copy.splice(32).join("");
+  return (
+    <div>
+      <br />
+      <YouTube videoId={copy} opts={opts} />
+      <br />
+    </div>
+  );
+};
+
+let widgetTwitter = x => {
+  let copy = x.split("");
+  copy = copy.splice(36).join("");
+  return <TweetEmbed id={copy} />;
+}
