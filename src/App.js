@@ -12,7 +12,7 @@ class App extends Component {
     this.state = {
       parsedDataObject: undefined,
       dataFetched: false,
-      searchKey: "blue", //eventually put a random list here
+      searchKey: "red", //eventually put a random list here
       isLoading: true
     };
   }
@@ -27,33 +27,74 @@ class App extends Component {
 
   componentDidMount() {
     this.getApi().then(resp => {
-      this.setState({ parsedDataObject: resp, isLoading: false});
+      this.setState({ parsedDataObject: resp, isLoading: false });
     });
   }
 
   getFormInput = key => {
-    if (this.state.searchKey !== key){
+    if (this.state.searchKey !== key) {
       this.setState({ searchKey: key, isLoading: true });
     }
   };
 
-
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.searchKey !== prevState.searchKey){
+    if (this.state.searchKey !== prevState.searchKey) {
       this.getApi().then(resp => {
-        this.setState({ parsedDataObject: resp, isLoading: false});
-      })
+        this.setState({ parsedDataObject: resp, isLoading: false });
+      });
     }
   }
 
   render() {
+    let obj1 = [];
+    let obj2 = [];
+    let obj3 = [];
+
+    this.state.parsedDataObject !== undefined
+      ? this.state.parsedDataObject.map(x => {
+          //acts as a temporary suffle
+          if (
+            (x[0] !== undefined) &
+            (x[1] !== undefined) &
+            (x[2] !== undefined)
+          ) {
+            obj1.reverse();
+            obj1.push({
+              url: x[0].url,
+              fragment: x[0].fragment,
+              annotations: x[0].annotations,
+              annotatable: x[0].annotatable
+            });
+            obj2.reverse();
+
+            obj2.push({
+              url: x[1].url,
+              fragment: x[1].fragment,
+              annotations: x[1].annotations,
+              annotatable: x[1].annotatable
+            });
+            obj3.push({
+              url: x[2].url,
+              fragment: x[2].fragment,
+              annotations: x[2].annotations,
+              annotatable: x[2].annotatable
+            });
+          }
+        })
+      : null;
+    obj1.reverse();
+
     return (
       <div className="main-grid">
         <Header>
           <Form getFormInput={this.getFormInput} />
         </Header>
-        {this.state.isLoading ? <Loading/> : null}
-        {this.state.isLoading ? null : <Cards parsedDataObject={this.state.parsedDataObject}/>}
+        {this.state.isLoading ? <Loading /> : null}
+        <div className="container-grid">
+          {this.state.isLoading ? null : <Cards parsedDataObject={obj1} />}
+          {this.state.isLoading ? null : <Cards parsedDataObject={obj2} />}
+          {this.state.isLoading ? null : <Cards parsedDataObject={obj3} />}
+        </div>
       </div>
     );
   }
@@ -62,13 +103,14 @@ class App extends Component {
 export default App;
 
 function fragmentArray(data) {
-  let object
-  data[0] !== undefined ?
-   object = {
-    url: data[0].url,
-    fragment: data[0].fragment,
-    annotations: data[0].annotations,
-    annotatable: data[0].annotatable
-  } : null
-  return object;
+  return data.map(x => {
+    let object;
+    object = {
+      url: x.url,
+      fragment: x.fragment,
+      annotations: x.annotations,
+      annotatable: x.annotatable
+    };
+    return object;
+  });
 }
