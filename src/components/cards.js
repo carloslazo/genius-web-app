@@ -8,20 +8,37 @@ class Cards extends Component {
     this.state = {};
   }
 
+
   renderDataObject() {
     return this.props.parsedDataObject.map((x, index) => {
+      let image = x.annotatable.image_url
+      let changedArray = x.annotatable.link_title.split("")
+      let titleString = changedArray.splice(x.annotatable.link_title.indexOf("by") + 3).join("")
+      let artistString = changedArray.slice(0,-3).join("")
+
+      console.log(artistString);
+
+
       return x === undefined ? null : (
         <div key={index} className="children">
+
           <div className="grid">
-            <div className="title"> {x.annotatable.link_title} </div>
-            <img
-              className="picture"
-              src={x.annotatable.image_url}
-              width="92.18"
-              height="87.45"
-            />
-            <div className="fragment"> {x.fragment} </div>
+            <div className="background-image" style={{backgroundImage:`url(${image})`}}>
+              <img
+                className="picture"
+                src={x.annotatable.image_url}
+                width="80.18"
+                height="80.45"
+              />
+            <div className="box"></div>
+            <div className="title"> <p className="title-string">{titleString}</p> <p className="artist">{artistString}</p></div>
+
+          </div>
+
+
             <div className="annotation">
+              <div className="annotation-color">
+              <div className="fragment"> {x.fragment} </div>
               {x.annotations[0].body.dom.children.map(x => {
                 if (x === "") {
                   return null;
@@ -82,6 +99,7 @@ class Cards extends Component {
                 }
               })}
             </div>
+          </div>
           </div>
         </div>
       );
