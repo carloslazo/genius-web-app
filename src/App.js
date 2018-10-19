@@ -13,7 +13,8 @@ class App extends Component {
       parsedDataObject: undefined,
       dataFetched: false,
         searchKey: "kendrick", //eventually put a random list here
-      isLoading: true
+      isLoading: true,
+      load: false,
     };
   }
 

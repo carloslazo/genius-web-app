@@ -12,6 +12,7 @@ class Cards extends Component {
   renderDataObject() {
     return this.props.parsedDataObject.map((x, index) => {
       let image = x.annotatable.image_url
+      console.log(image);
       let changedArray = x.annotatable.link_title.split("")
       let titleString = changedArray.splice(x.annotatable.link_title.indexOf("by") + 3).join("")
       let artistString = changedArray.slice(0,-3).join("")
