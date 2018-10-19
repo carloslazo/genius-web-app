@@ -12,7 +12,7 @@ class App extends Component {
     this.state = {
       parsedDataObject: undefined,
       dataFetched: false,
-      searchKey: "red", //eventually put a random list here
+        searchKey: "kendrick", //eventually put a random list here
       isLoading: true
     };
   }
