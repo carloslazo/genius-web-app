@@ -238,3 +238,24 @@
     -webkit-transform: scaleY(1.0);
   }
 }
+
+
+
+@media only screen and (max-width: 600px) {
+    .container-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+    }
+    .logo-main{
+    display: none;
+
+    }
+
+}
+
+@media only screen and (max-width: 850px) {
+  .container-grid{
+    display:grid;
+    grid-template-columns: 1fr;
+  }
+}
