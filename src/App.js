@@ -3,6 +3,8 @@ import Header from "./components/header.jsx";
 import Form from "./components/form.jsx";
 import Cards from "./components/cards.js";
 import Loading from "./components/loading.jsx";
+import HomePage from "./components/home-page.jsx";
+
 import { getSearch, getReferents } from "./api/index.js";
 require("dotenv").config();
 
@@ -38,6 +40,10 @@ class App extends Component {
     }
   };
 
+  getFormInputHomePage = key => {
+    this.setState({searchKey:key, isLoading: true, load: true})
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.searchKey !== prevState.searchKey) {
       this.getApi().then(resp => {
@@ -66,6 +72,7 @@ class App extends Component {
               annotations: x[0].annotations,
               annotatable: x[0].annotatable
             });
+            console.log(obj1[0].annotatable.image_url)
             obj2.reverse();
 
             obj2.push({
@@ -83,12 +90,12 @@ class App extends Component {
           }
         })
       : null;
-    obj1.reverse();
 
-    return (
+
+    return this.state.load ? (
       <div className="main-grid">
         <Header>
-          <Form getFormInput={this.getFormInput} />
+          <Form getFormInput={this.getFormInput} form={"search-form"} submit={"search-submit"}/>
         </Header>
         {this.state.isLoading ? <Loading /> : null}
         <div className="container-grid">
@@ -97,7 +104,7 @@ class App extends Component {
           {this.state.isLoading ? null : <Cards parsedDataObject={obj3} />}
         </div>
       </div>
-    );
+    ) : <HomePage getFormInput={this.getFormInputHomePage}/>
   }
 }
 
