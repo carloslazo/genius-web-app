@@ -1,5 +1,5 @@
 let token = process.env.REACT_APP_GENIUS_TOKEN
-
+console.log(token);
 let myInit = {
   method: "GET",
   headers: {
