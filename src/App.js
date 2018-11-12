@@ -6,7 +6,6 @@ import Loading from "./components/loading.jsx";
 import HomePage from "./components/home-page.jsx";
 
 import { getSearch, getReferents } from "./api/index.js";
-require("dotenv").config();
 
 class App extends Component {
   constructor(props) {
