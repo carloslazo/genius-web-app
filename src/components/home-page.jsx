@@ -20,7 +20,7 @@ class HomePage extends Component {
           width="60"
           height="60"
         />
-      <span className="home-background"  style={{backgroundImage:`url(https://images.genius.com/8bf8ad4e7bcd4e2d9f1d33b1bb53fe3a.1000x1000x1.jpg)`}}/>
+      <span className="home-background"  style={{backgroundImage:`url(${this.props.parsedDataObject[0]})`}}/>
       <div className="home-page-form2">
       <Form getFormInput = {this.props.getFormInput} form={"search-form2"} submit={"search-submit2"} />
       </div>

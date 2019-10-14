@@ -24,7 +24,6 @@ class Form extends Component {
     return (
         <form onSubmit={this.handleSubmit}>
           <input className = {this.props.form} type="text" onChange={this.handleChange} placeholder="Search artists and albums" value={this.state.input}/>
-          <input className = {this.props.submit} type="image" src={logo}  />
         </form>
     );
   }

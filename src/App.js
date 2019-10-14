@@ -13,7 +13,7 @@ class App extends Component {
     this.state = {
       parsedDataObject: undefined,
       dataFetched: false,
-        searchKey: "kendrick", //eventually put a random list here
+      searchKey: "foo fighters", //eventually put a random list here
       isLoading: true,
       load: false,
     };
@@ -91,7 +91,7 @@ class App extends Component {
       : null;
 
 
-    return this.state.load ? (
+    return(
       <div className="main-grid">
         <Header>
           <Form getFormInput={this.getFormInput} form={"search-form"} submit={"search-submit"}/>
@@ -102,8 +102,8 @@ class App extends Component {
           {this.state.isLoading ? null : <Cards parsedDataObject={obj2} />}
           {this.state.isLoading ? null : <Cards parsedDataObject={obj3} />}
         </div>
-      </div>
-    ) : <HomePage getFormInput={this.getFormInputHomePage}/>
+      </div>)
+    
   }
 }
 
